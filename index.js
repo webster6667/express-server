@@ -1,19 +1,18 @@
 require('dotenv').config()
 const express = require('express')
 const {graphqlHTTP} = require('express-graphql')
-// const cors = require('cors')
+const cors = require('cors')
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const router = require('./routes/index')
-const {User} = require('./models/models')
 
 const PORT = process.env.PORT || 5085
 
 const schema = require('./schema')
 
 const app = express()
-// app.use(cors())
+app.use(cors())
 app.use(express.json())
 
 app.use('/api', router)
