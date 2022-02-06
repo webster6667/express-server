@@ -2,7 +2,8 @@ require('dotenv').config()
 const express = require('express')
 const {graphqlHTTP} = require('express-graphql')
 const cors = require('cors')
-const sequelize = require('./db')
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 const router = require('./routes/index')
 const {User} = require('./models/models')
@@ -19,23 +20,27 @@ app.use('/api', router)
 
 const root = {
     getAllUsers: async () => {
-        const users = await User.findAll()
+        const users = await prisma.user.findMany();
 
         return users
     },
     getUser: async ({id}) => {
-        const user = await User.findOne({where: {id}})
+        
+        const user = await prisma.user.findMany()
 
-        return user
+        return user[0]
     },
-    getJobs: async () => {
-        const jobs = await User.findAll()
+    getAllJobs: async () => {
+        const jobs = await prisma.job.findMany();
 
         return jobs
     },
     createUser: async ({input}) => {
-        const user = await User.create({
-            ...input
+        const user = await prisma.user.create({
+            data: {
+                id: -Math.abs(new Date().getTime()),
+                ...input
+            }
         })
 
         return user
@@ -51,9 +56,6 @@ app.use('/graphql', graphqlHTTP({
 
 const start = async () => {
     try {
-        // await sequelize.authenticate()
-        // await sequelize.sync()
-
         app.listen(PORT, () => console.log(`server started on port ${PORT}`))
     } catch (e) {
         console.log(e)

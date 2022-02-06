@@ -11,7 +11,20 @@ datasource db {
   shadowDatabaseUrl = "postgresql://qnc:password@localhost:5432/qnc"
 }
 
-model Author {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
+model user {
+  id    Int     @id @unique @default(autoincrement())
+  name  String?
+  lastName  String?
+  phone  String?
+  email  String?
+  password  String?
+  status  Int?
+  sex  Int?
+  contentToken  String?
+  notificationCount Int @default(0)
+}
+
+model job {
+  id    Int     @id @default(autoincrement()) @unique
+  title  String
 }

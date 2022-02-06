@@ -1,11 +1,12 @@
-// const {Job} = require('../models/models')
-//
-// class JobController {
-//     async getAll(req, res) {
-//         let users = await Job.findAll();
-//
-//         return res.json(users)
-//     }
-// }
-//
-// module.exports = new JobController()
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+class JobController {
+    async getAll(req, res) {
+        const jobs = await prisma.job.findMany();
+
+        return res.json(jobs)
+    }
+}
+
+module.exports = new JobController()
