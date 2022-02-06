@@ -1,30 +1,45 @@
+require('dotenv').config()
 const express = require('express')
 const {graphqlHTTP} = require('express-graphql')
 const cors = require('cors')
+const sequelize = require('./db')
+
+const router = require('./routes/index')
+const {User} = require('./models/models')
+
+const PORT = process.env.PORT || 5085
+
 const schema = require('./schema')
-const users = [{id: 1, username: "Vasya", age: 25}]
 
 const app = express()
 app.use(cors())
+app.use(express.json())
 
-const createUser = (input) => {
-    const id = Date.now()
-    return {
-        id, ...input
-    }
-}
+app.use('/api', router)
+
 const root = {
-    getAllUsers: () => {
+    getAllUsers: async () => {
+        const users = await User.findAll()
+
         return users
     },
-    getUser: ({id}) => {
-        return users.find(user => user.id == id)
-    },
-    createUser: ({input}) => {
-        const user = createUser(input)
-        users.push(user)
+    getUser: async ({id}) => {
+        const user = await User.findOne({where: {id}})
+
         return user
-    }
+    },
+    getJobs: async () => {
+        const jobs = await User.findAll()
+
+        return jobs
+    },
+    createUser: async ({input}) => {
+        const user = await User.create({
+            ...input
+        })
+
+        return user
+    },
 }
 
 app.use('/graphql', graphqlHTTP({
@@ -33,4 +48,16 @@ app.use('/graphql', graphqlHTTP({
     rootValue: root
 }))
 
-app.listen(5073, () => console.log('server started on port 5073'))
+
+const start = async () => {
+    try {
+        await sequelize.authenticate()
+        await sequelize.sync()
+
+        app.listen(PORT, () => console.log(`server started on port ${PORT}`))
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+start()
