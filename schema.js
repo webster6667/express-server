@@ -5,7 +5,7 @@ const schema = buildSchema(`
     type User {
         id: ID
         name: String,
-        phone_number: String
+        phone: String
     }
     
     type Job {
@@ -15,8 +15,8 @@ const schema = buildSchema(`
     
     input UserInput {
         name: String!
-        last_name: String!
-        phone_number: String!
+        lastName: String!
+        phone: String!
     }
     
     type Query {

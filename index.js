@@ -28,7 +28,7 @@ const root = {
 
         return user
     },
-    getJobs: async () => {
+    getAllJobs: async () => {
         const jobs = await User.findAll()
 
         return jobs
