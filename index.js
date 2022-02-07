@@ -13,6 +13,7 @@ const schema = require('./schema')
 
 var allowedOrigins = ["https://2ssi7.csb.app"];
 
+
 const app = express()
 app.use(cors(allowedOrigins));
 app.use(express.json())
