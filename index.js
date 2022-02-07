@@ -23,10 +23,10 @@ const sessionConfig = {
 
 const app = express()
 
-app.set("trust proxy", 1); // trust first proxy
-sessionConfig.cookie.secure = true;
-
-app.use(session(sessionConfig));
+// app.set("trust proxy", 1); // trust first proxy
+// sessionConfig.cookie.secure = true;
+//
+// app.use(session(sessionConfig));
 
 
 app.use(
