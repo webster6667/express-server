@@ -5,7 +5,9 @@ class UserController {
     async getAll(req, res) {
 
         const users = await prisma.user.findMany();
-        
+
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         return res.json(users)
     }
 
@@ -15,6 +17,8 @@ class UserController {
             where: {id: Number(id)},
             take: 1
         })
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         return res.json(user)
     }
 }
