@@ -11,10 +11,10 @@ const PORT = process.env.PORT || 5085
 
 const schema = require('./schema')
 
+var allowedOrigins = ["https://2ssi7.csb.app"];
+
 const app = express()
-app.use(cors({
-    origin: '*'
-}));
+app.use(cors(allowedOrigins));
 app.use(express.json())
 
 app.use('/api', router)
