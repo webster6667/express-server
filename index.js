@@ -13,9 +13,30 @@ const schema = require('./schema')
 
 var allowedOrigins = ["https://2ssi7.csb.app"];
 
+const sessionConfig = {
+    // ... other methods
+    cookie: {
+        sameSite: "none",
+    },
+};
 
 const app = express()
-app.use(cors(allowedOrigins));
+
+app.set("trust proxy", 1); // trust first proxy
+sessionConfig.cookie.secure = true;
+
+app.use(session(sessionConfig));
+
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+        preflightContinue: true,
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        credentials: true,
+    })
+);
+
 app.use(express.json())
 
 app.use('/api', router)
