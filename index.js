@@ -5,7 +5,7 @@ const cors = require('cors')
 const sequelize = require('./db')
 
 const router = require('./routes/index')
-const {User} = require('./models/models')
+const {User, Job} = require('./models/models')
 
 const PORT = process.env.PORT || 5085
 
@@ -29,7 +29,7 @@ const root = {
         return user
     },
     getAllJobs: async () => {
-        const jobs = await User.findAll()
+        const jobs = await Job.findAll()
 
         return jobs
     },
